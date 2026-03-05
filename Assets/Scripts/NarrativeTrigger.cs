@@ -8,6 +8,7 @@ public class NarrativeTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
             NarrativeManager.Instance.ShowNarrative(narrativeInd);
+            Debug.Log("on trigger");
     }
 
     private void OnTriggerExit(Collider other)
