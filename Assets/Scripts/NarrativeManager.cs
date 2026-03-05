@@ -5,14 +5,20 @@ public class NarrativeManager : MonoBehaviour
 {
     public static NarrativeManager Instance;
 
-    [TextArea] public string[] narrativeLines; 
-    public GameObject textBackground;         
-    public TextMeshProUGUI narrativeText;      
+    [TextArea] public string[] narrativeLines;
+    public GameObject[] triggers;             
+    public GameObject textBackground;
+    public TextMeshProUGUI narrativeText;   
 
     void Awake()
     {
         Instance = this;
-        textBackground.SetActive(false); 
+        textBackground.SetActive(false);
+
+        for (int i = 0; i < triggers.Length; i++)
+        {
+            triggers[i].GetComponent<NarrativeTrigger>().narrativeInd = i;
+        }
     }
 
     public void ShowNarrative(int index)

@@ -17,7 +17,6 @@ public class FakeTerminal : MonoBehaviour
 
     private string currentIntroText;
     private string promptText = "PS C:\\Users\\??\\work\\today-task> ";
-    
     private string targetCommand = "git push";
     private string typed = "";
     private bool accepted = false;
@@ -62,6 +61,7 @@ public class FakeTerminal : MonoBehaviour
                     typed = "";
                 }
             }
+
             else if (c >= ' ' && c <= '~')
             {
                 typed += c;
@@ -77,9 +77,7 @@ public class FakeTerminal : MonoBehaviour
         if (keySound)
         {
             keySound.Stop();
-            
             keySound.pitch = Random.Range(0.95f, 1.05f);
-            
             keySound.Play();
         }
     }
