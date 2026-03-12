@@ -20,10 +20,6 @@ public class PickUpScript : MonoBehaviour
     private MonoBehaviour fpcScript;
     private MonoBehaviour fpMovement;
 
-    //Reference to script which includes mouse movement of player (looking around)
-    //we want to disable the player looking around when rotating the object
-    //example below 
-    //MouseLookScript mouseLookScript;
     void Start()
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer"); 
@@ -60,7 +56,6 @@ public class PickUpScript : MonoBehaviour
         {
             MoveObject();
             RotateObject();
-            // Throw block removed entirely
         }
     }
     void PickUpObject(GameObject pickUpObj)
