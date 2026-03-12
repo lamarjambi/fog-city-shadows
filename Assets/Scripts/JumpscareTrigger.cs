@@ -1,18 +1,26 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class JumpscareTrigger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private GameObject jumpscareImage;
+    [SerializeField] private AudioSource jumpscareSound;
+    [SerializeField] private float jumpscareDuration = 3f;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            StartCoroutine(JumpscareSequence());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator JumpscareSequence()
     {
-        
+        jumpscareImage.SetActive(true);
+        jumpscareSound.Play();
+        yield return new WaitForSeconds(jumpscareDuration);
+        SceneManager.LoadScene("EndScene");
     }
 }
