@@ -1,0 +1,19 @@
+VisualElement {
+}
+
+.button {
+    -unity-font: url("project://database/Assets/Fonts/Beautiful%20Horror.ttf?fileID=12800000&guid=b6bc476b435e52842adff40c8c55b364&type=3#Beautiful Horror");
+    width: 200px;
+    -unity-text-align: upper-center;
+    -unity-font-definition: url("project://database/Assets/Fonts/Beautiful%20Horror%20SDF%201.asset?fileID=11400000&guid=b20e9f110700b7c4186e8d117175d334&type=2#Beautiful Horror SDF 1");
+    font-size: 80px;
+    flex-shrink: 0;
+    margin-top: 20px;
+}
+
+.button:hover {
+    background-color: rgba(70, 31, 108, 0.58);
+    color: rgb(255, 255, 255);
+    scale: 1.1 1.1;
+    transition-duration: 0.2s;
+}
