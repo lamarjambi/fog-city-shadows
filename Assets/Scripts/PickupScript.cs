@@ -38,7 +38,7 @@ public class PickUpScript : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
                 {
-                    if (hit.transform.gameObject.tag == "canPickUp" || hit.transform.gameObject.tag == "Phone")
+                    if (hit.transform.gameObject.tag == "canPickUp" || hit.transform.gameObject.tag == "Phone" || hit.transform.gameObject.tag == "Laundry" || hit.transform.gameObject.tag == "Food")
                     {
                         PickUpObject(hit.transform.gameObject);
                     }
@@ -48,7 +48,7 @@ public class PickUpScript : MonoBehaviour
             {
                 if (canDrop)
                 {
-                    AddToInventoryAndDrop(); // <-- replaces StopClipping() call
+                    AddToInventoryAndDrop(); 
                 }
             }
         }
@@ -66,6 +66,8 @@ public class PickUpScript : MonoBehaviour
 
         fpcScript.enabled = true;
         fpMovement.enabled = true;
+        Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.visible = false;
 
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
 
@@ -85,6 +87,11 @@ public class PickUpScript : MonoBehaviour
             heldObj.layer = LayerNumber; //change the object layer to the holdLayer
             //make sure object doesnt collide with player, it can cause weird bugs
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
+
+            fpcScript.enabled = false;
+            fpMovement.enabled = false;
+            Cursor.lockState = CursorLockMode.None; // unlock cursor so no mouse drift
+            Cursor.visible = true;
         }
     }
     void MoveObject()
@@ -97,8 +104,6 @@ public class PickUpScript : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse1))
         {
             canDrop = false;
-            fpcScript.enabled = false; // freeze camera + movement
-            fpMovement.enabled = false;
 
             float XaxisRotation = Input.GetAxis("Mouse X") * rotationSensitivity;
             float YaxisRotation = Input.GetAxis("Mouse Y") * rotationSensitivity;
@@ -109,21 +114,6 @@ public class PickUpScript : MonoBehaviour
         else
         {
             canDrop = true;
-        }
-    }
-    void StopClipping() //function only called when dropping/throwing
-    {
-        var clipRange = Vector3.Distance(heldObj.transform.position, transform.position); //distance from holdPos to the camera
-        //have to use RaycastAll as object blocks raycast in center screen
-        //RaycastAll returns array of all colliders hit within the cliprange
-        RaycastHit[] hits;
-        hits = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.forward), clipRange);
-        //if the array length is greater than 1, meaning it has hit more than just the object we are carrying
-        if (hits.Length > 1)
-        {
-            //change object position to camera position 
-            heldObj.transform.position = transform.position + new Vector3(0f, -0.5f, 0f); //offset slightly downward to stop object dropping above player 
-            //if your player is small, change the -0.5f to a smaller number (in magnitude) ie: -0.1f
         }
     }
 }
