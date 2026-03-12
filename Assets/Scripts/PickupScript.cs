@@ -20,6 +20,8 @@ public class PickUpScript : MonoBehaviour
     private MonoBehaviour fpcScript;
     private MonoBehaviour fpMovement;
 
+    public List<GameObject> inventory = new List<GameObject>();
+
     void Start()
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer"); 
@@ -36,7 +38,7 @@ public class PickUpScript : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
                 {
-                    if (hit.transform.gameObject.tag == "canPickUp")
+                    if (hit.transform.gameObject.tag == "canPickUp" || hit.transform.gameObject.tag == "Phone")
                     {
                         PickUpObject(hit.transform.gameObject);
                     }
@@ -44,10 +46,9 @@ public class PickUpScript : MonoBehaviour
             }
             else
             {
-                if (canDrop == true)
+                if (canDrop)
                 {
-                    StopClipping();
-                    DropObject();
+                    AddToInventoryAndDrop(); // <-- replaces StopClipping() call
                 }
             }
         }
@@ -58,6 +59,21 @@ public class PickUpScript : MonoBehaviour
             RotateObject();
         }
     }
+
+    void AddToInventoryAndDrop()
+    {
+        inventory.Add(heldObj); 
+
+        fpcScript.enabled = true;
+        fpMovement.enabled = true;
+
+        Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
+
+        Destroy(heldObj);
+        heldObj = null;
+        heldObjRb = null;
+    }
+
     void PickUpObject(GameObject pickUpObj)
     {
         if (pickUpObj.GetComponent<Rigidbody>()) //make sure the object has a RigidBody
@@ -70,15 +86,6 @@ public class PickUpScript : MonoBehaviour
             //make sure object doesnt collide with player, it can cause weird bugs
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
         }
-    }
-    void DropObject()
-    {
-        //re-enable collision with player
-        Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
-        heldObj.layer = 0; //object assigned back to default layer
-        heldObjRb.isKinematic = false;
-        heldObj.transform.parent = null; //unparent object
-        heldObj = null; //undefine game object
     }
     void MoveObject()
     {
@@ -102,7 +109,6 @@ public class PickUpScript : MonoBehaviour
         else
         {
             canDrop = true;
-            fpcScript.enabled = true; // restore camera + movement
         }
     }
     void StopClipping() //function only called when dropping/throwing
