@@ -64,6 +64,14 @@ public class PickUpScript : MonoBehaviour
     {
         inventory.Add(heldObj); 
 
+        // check if have items in inventory
+        if (heldObj.tag == "Phone")
+            NarrativeManager.Instance.RemoveObjective(3);
+        if (heldObj.tag == "Food")
+            NarrativeManager.Instance.RemoveObjective(10);    
+        if (heldObj.tag == "Laundry")
+            NarrativeManager.Instance.RemoveObjective(11);    
+
         fpcScript.enabled = true;
         fpMovement.enabled = true;
         Cursor.lockState = CursorLockMode.Locked; 

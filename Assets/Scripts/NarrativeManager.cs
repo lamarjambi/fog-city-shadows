@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class NarrativeManager : MonoBehaviour
 {
@@ -29,13 +30,20 @@ public class NarrativeManager : MonoBehaviour
         narrativeText.text = narrativeLines[index];
         textBackground.SetActive(true);
 
-        // check if this narrative index has an objective
+        // check if narrative has objective
         foreach (var obj in narrativeObjectives)
         {
             if (obj.narrativeIndex == index)
             {
-                objectiveText.text = obj.objectiveText;
-                break;
+                if (!objectiveText.text.Contains(obj.objectiveText))
+                {
+                    // add to objectives on a new line or set
+                    if (string.IsNullOrEmpty(objectiveText.text))
+                        objectiveText.text = obj.objectiveText;
+                    else
+                        objectiveText.text += "\n" + obj.objectiveText;
+                    break;
+                }
             }
         }
     }
@@ -43,6 +51,21 @@ public class NarrativeManager : MonoBehaviour
     public void HideNarrative()
     {
         textBackground.SetActive(false);
+    }
+
+    public void RemoveObjective(int narrativeIndex)
+    {
+        foreach (var obj in narrativeObjectives)
+        {
+            if (obj.narrativeIndex == narrativeIndex)
+            {
+                // Split lines, remove the matching one, rejoin
+                var lines = new List<string>(objectiveText.text.Split('\n'));
+                lines.Remove(obj.objectiveText);
+                objectiveText.text = string.Join("\n", lines);
+                break;
+            }
+        }
     }
 }
 
