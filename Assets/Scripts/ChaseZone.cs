@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ChaseZone : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public MonsterAI monster; 
+
+    void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+            monster.PlayerEntered();
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerExit(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+            monster.PlayerExited();
     }
 }
