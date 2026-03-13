@@ -21,6 +21,7 @@ public class JumpscareTrigger : MonoBehaviour
         jumpscareImage.SetActive(true);
         jumpscareSound.Play();
         yield return new WaitForSeconds(jumpscareDuration);
+        Time.timeScale = 1f;
         SceneManager.LoadScene("EndScene");
     }
 }

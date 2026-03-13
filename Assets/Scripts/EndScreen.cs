@@ -15,9 +15,12 @@ public class EndScreen : MonoBehaviour
 
     private List<Button> _menuButtons = new List<Button>();
 
-    private void Awake() {
-        _document = GetComponent<UIDocument>();
+    private void OnEnable() {
+        Time.timeScale = 1f;
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+        UnityEngine.Cursor.visible = true;
 
+        _document = GetComponent<UIDocument>();
         var root = _document.rootVisualElement;
 
         _homeButton = root.Q<Button>("Home");
@@ -37,6 +40,7 @@ public class EndScreen : MonoBehaviour
     }
 
     private void OnRetrysButtonClick(ClickEvent evt) {
+        Debug.Log("Retry clicked");
         SceneManager.LoadScene("GameScene");
     }
 }

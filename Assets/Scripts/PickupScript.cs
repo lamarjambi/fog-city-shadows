@@ -17,15 +17,15 @@ public class PickUpScript : MonoBehaviour
     private int LayerNumber; //layer index
 
     [Header("Player Scripts")]
-    private MonoBehaviour fpcScript;
+    private MonoBehaviour fpLook;
     private MonoBehaviour fpMovement;
 
-    public List<GameObject> inventory = new List<GameObject>();
+    public List<string> inventory = new List<string>();
 
     void Start()
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer"); 
-        fpcScript = player.GetComponentInChildren<FirstPersonLook>();
+        fpLook = player.GetComponentInChildren<FirstPersonLook>();
         fpMovement = player.GetComponent<FirstPersonMovement>();
         
     }
@@ -62,7 +62,7 @@ public class PickUpScript : MonoBehaviour
 
     void AddToInventoryAndDrop()
     {
-        inventory.Add(heldObj); 
+        inventory.Add(heldObj.tag);
 
         // check if have items in inventory
         if (heldObj.tag == "Phone")
@@ -72,7 +72,7 @@ public class PickUpScript : MonoBehaviour
         if (heldObj.tag == "Laundry")
             NarrativeManager.Instance.RemoveObjective(11);    
 
-        fpcScript.enabled = true;
+        fpLook.enabled = true;
         fpMovement.enabled = true;
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
@@ -96,8 +96,9 @@ public class PickUpScript : MonoBehaviour
             //make sure object doesnt collide with player, it can cause weird bugs
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
 
-            fpcScript.enabled = false;
+            fpLook.enabled = false;
             fpMovement.enabled = false;
+
             Cursor.lockState = CursorLockMode.None; // unlock cursor so no mouse drift
             Cursor.visible = true;
         }

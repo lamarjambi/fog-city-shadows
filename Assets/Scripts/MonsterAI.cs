@@ -31,11 +31,9 @@ public class MonsterAI : MonoBehaviour
             agent.SetDestination(player.position);
 
             float distance = Vector3.Distance(transform.position, player.position);
-            Debug.Log("Distance to player: " + distance);
             if (distance <= catchDistance)
             {
                 jumpscareTriggered = true;
-                Debug.Log("Jumpscare triggered!");
                 agent.ResetPath();
                 StartCoroutine(JumpscareSequence());
             }
@@ -51,6 +49,7 @@ public class MonsterAI : MonoBehaviour
         jumpscareImage.SetActive(true);
         jumpscareSound.Play();
         yield return new WaitForSeconds(jumpscareDuration);
+        Time.timeScale = 1f;
         SceneManager.LoadScene("EndScene");
     }
 
