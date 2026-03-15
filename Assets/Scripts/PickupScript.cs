@@ -26,7 +26,7 @@ public class PickUpScript : MonoBehaviour
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer"); 
         fpLook = player.GetComponentInChildren<FirstPersonLook>();
-        fpMovement = player.GetComponent<FirstPersonMovement>();
+        fpMovement = player.GetComponentInChildren<FirstPersonMovement>();
         
     }
     void Update()
@@ -38,7 +38,7 @@ public class PickUpScript : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
                 {
-                    if (hit.transform.gameObject.tag == "canPickUp" || hit.transform.gameObject.tag == "Phone" || hit.transform.gameObject.tag == "Laundry" || hit.transform.gameObject.tag == "Food")
+                    if (hit.transform.gameObject.tag == "Phone" || hit.transform.gameObject.tag == "Laundry" || hit.transform.gameObject.tag == "Food")
                     {
                         PickUpObject(hit.transform.gameObject);
                     }
@@ -74,8 +74,8 @@ public class PickUpScript : MonoBehaviour
 
         fpLook.enabled = true;
         fpMovement.enabled = true;
-        Cursor.lockState = CursorLockMode.Locked; 
-        Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked; 
+        // Cursor.visible = false;
 
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
 
@@ -99,8 +99,8 @@ public class PickUpScript : MonoBehaviour
             fpLook.enabled = false;
             fpMovement.enabled = false;
 
-            Cursor.lockState = CursorLockMode.None; // unlock cursor so no mouse drift
-            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            // Cursor.visible = true; // draw cursor
         }
     }
     void MoveObject()

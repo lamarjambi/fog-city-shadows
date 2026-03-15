@@ -19,7 +19,7 @@ public class FirstPersonLook : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.lockState = CursorLockMode.Locked;
 
         // --- NEW LINES -----------------------------------------
         // read the Y-rotation you set in the Inspector (e.g., 180°)
